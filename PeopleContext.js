@@ -24,14 +24,21 @@ export const PeopleProvider = ({ children }) => {
       id: randomUUID(),
       name,
       dob,
+      ideas: [],
     };
     const updatedPeople = [...people, newPerson];
     setPeople(updatedPeople);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
   };
 
+  const deletePerson = async (id) => {
+    const updatedPeople = people.filter((person) => person.id !== id);
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+  };
+
   return (
-    <PeopleContext.Provider value={{ people, addPerson }}>
+    <PeopleContext.Provider value={{ people, addPerson, deletePerson }}>
       {children}
     </PeopleContext.Provider>
   );
