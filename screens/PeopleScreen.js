@@ -50,7 +50,10 @@ const renderItem = ({ item }) => {
           <Text style={styles.itemName}>{item.name}</Text>
           <Text style={styles.itemDOB}>{formattedDOB}</Text>
         </View>
-        <MaterialIcons name="lightbulb" size={32} color="black" />
+        <MaterialIcons name="lightbulb" size={32} color="black" 
+          onPress={() => navigation.navigate("Idea", item)}/>
+          {/* <MaterialIcons name="lightbulb" size={32} color="black" 
+          onPress={() => console.log("Idea pressed")}/> */}
       </View>
     </Swipeable>
   );
@@ -118,8 +121,8 @@ fabContainer: {
   /* for the FAB itself */
   borderRadius: 50,
   position: 'absolute',
-  bottom: 15,
-  right: 15,
+  bottom: 30,
+  right: 30,
   backgroundColor: '#C0AFE2',
 }
 });

@@ -41,8 +41,19 @@ export const PeopleProvider = ({ children }) => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
   };
 
+
+  const addIdea = async ({id, idea}) => {
+    const person = people.find((person) => person.id === id)
+    person.ideas.push(idea);
+
+    const updatedPeople = [...people];
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+  };
+
+
   return (
-    <PeopleContext.Provider value={{ people, addPerson, deletePerson }}>
+    <PeopleContext.Provider value={{ people, addPerson, deletePerson, addIdea }}>
       {children}
     </PeopleContext.Provider>
   );
