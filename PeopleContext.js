@@ -27,8 +27,12 @@ export const PeopleProvider = ({ children }) => {
       ideas: [],
     };
     const updatedPeople = [...people, newPerson];
-    setPeople(updatedPeople);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+
+    let updatedPeopleSortedByDay = updatedPeople.sort((a,b) => a.dob.split('/')[2].localeCompare(b.dob.split('/')[2]))
+    let updatedPeopleSortedByDayAndMonth = updatedPeopleSortedByDay.sort((a,b) => a.dob.split('/')[1].localeCompare(b.dob.split('/')[1]))
+
+    setPeople(updatedPeopleSortedByDayAndMonth);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeopleSortedByDayAndMonth));
   };
 
   const deletePerson = async (id) => {

@@ -1,6 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
-import { StyleSheet, Button, FlatList, View, Text, SafeAreaView, Pressable } from "react-native";
+import { 
+  StyleSheet, 
+  Button, 
+  FlatList, 
+  View, 
+  Text, 
+  SafeAreaView, 
+  Pressable, 
+} from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import PeopleContext from "../PeopleContext";
 import {
@@ -26,17 +34,27 @@ const renderRightActions = (id) => (
   </TouchableOpacity>
 );
 
-const renderItem = ({ item }) => (
-  <Swipeable renderRightActions={() => renderRightActions(item.id)}>
-    <View style={styles.itemContainer}>
-      <View style={styles.itemPerson}>
-        <Text style={styles.itemName}>{item.name}</Text>
-        <Text style={styles.itemDOB}>{item.dob}</Text>
+const renderItem = ({ item }) => {
+  let dateFormat = item.dob.split("/").join("-");
+  let dateObj = new Date(dateFormat);
+    let options = {
+      month: 'long',
+      day: 'numeric',
+    };
+    let formattedDOB = new Intl.DateTimeFormat('en-CA', options).format(dateObj);
+  
+  return (
+    <Swipeable renderRightActions={() => renderRightActions(item.id)}>
+      <View style={styles.itemContainer}>
+        <View style={styles.itemPerson}>
+          <Text style={styles.itemName}>{item.name}</Text>
+          <Text style={styles.itemDOB}>{formattedDOB}</Text>
+        </View>
+        <MaterialIcons name="lightbulb" size={32} color="black" />
       </View>
-      <MaterialIcons name="lightbulb" size={32} color="black" />
-    </View>
-  </Swipeable>
-);
+    </Swipeable>
+  );
+};
 
 
 return (
