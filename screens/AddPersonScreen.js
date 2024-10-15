@@ -9,6 +9,7 @@ import {
   Platform, 
   KeyboardAvoidingView, 
   Keyboard,
+  ScrollView,
 } from "react-native";
 import PeopleContext from "../PeopleContext";
 import { useNavigation } from "@react-navigation/native";
@@ -23,10 +24,10 @@ export default function AddPersonScreen() {
   const savePerson = () => {
     if (name && dob) {
       addPerson(name, dob);
-      console.log("Name: ", name)
-      console.log("DOB: ", dob)
       navigation.goBack();
     }
+    // !! notify if field is empty !!!!
+    
   };
   return (
 
@@ -34,22 +35,34 @@ export default function AddPersonScreen() {
       behaviour={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <Pressable onPress={Keyboard.dismiss}>
+      <ScrollView>
+        <Pressable onPress={Keyboard.dismiss}>
 
-        <Text style={styles.title}>Add a person</Text>
-        <Text style={styles.inputTitleName}>Person Name:</Text>
-        <TextInput style={styles.nameInput} placeholder="" value={name} onChangeText={setName} />
-        
-        <Text style={styles.inputTitleDOB}>Person Date of Birth:</Text>
-        <DatePicker
-          onSelectedChange={date => setDob(date)}
-          mode="calendar"
-        />
 
-        <Button title="Save" onPress={savePerson} />
-        <Button title="Cancel" onPress={() => navigation.goBack()} />
+          <Text style={styles.title}>Add a person</Text>
+          <Text style={styles.inputTitleName}>Name:</Text>
+          <TextInput style={styles.nameInput} placeholder="" value={name} onChangeText={setName} />
+          
+          <Text style={styles.inputTitleDOB}>Date of Birth:</Text>
+          <DatePicker
+            onSelectedChange={date => setDob(date)}
+            mode="calendar"
+          />
 
-      </Pressable>
+          {/* <Button title="Save" onPress={savePerson} /> */}
+          {/* <Button title="Cancel" onPress={() => navigation.goBack()} /> */}
+
+          <Pressable style={[styles.button, styles.saveButton]} onPress={savePerson}>
+            <Text style={styles.buttonText}>Save</Text>
+          </Pressable>
+
+          <Pressable style={styles.button} onPress={() => navigation.goBack()}>
+            <Text style={styles.buttonText} >Cancel</Text>
+          </Pressable>
+
+
+        </Pressable>
+      </ScrollView>
 
     </KeyboardAvoidingView>
     
@@ -83,4 +96,28 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 5,
   },
+
+  button: {
+    width: "95%",
+    height: 50,
+    marginHorizontal: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+    padding: 3,
+    borderRadius: 18,
+    backgroundColor: "#D21F3C",
+    margin: 5,
+  },
+  saveButton:{
+    backgroundColor: "#0F52BA",
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+  },
+
+  testingText: {
+    fontSize: 18,
+  }
 });
