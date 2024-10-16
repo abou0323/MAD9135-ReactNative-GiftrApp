@@ -26,20 +26,10 @@ export default function ModalComponent({visibility, toggle, message}) {
             <Text style={styles.modalText}>{message}</Text>
             {/* <Button onPress={()=>{setIsModalVisible(!isModalVisible)}} title="Close"/> */}
 
-            {/* <Pressable style={styles.modalButton} onPress={toggle}>
+            <Pressable style={styles.modalButton} onPress={toggle}>
               <Text style={styles.modalButtonText}>Close</Text>
-            </Pressable> */}
+            </Pressable>
 
-            <View style={styles.buttons}>
-              <Pressable style={styles.modalButton} onPress={toggle}>
-                <Text style={styles.modalButtonText}>Close</Text>
-              </Pressable>
-              {type === "requestConfirm" &&
-                <Pressable style={styles.modalButton} onPress={toggle}>
-                  <Text style={styles.modalButtonText}>Cancel</Text>
-                </Pressable>
-              }
-            </View>
           </View>
 
         </View>
