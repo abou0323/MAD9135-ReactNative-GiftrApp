@@ -11,13 +11,15 @@ export const PeopleProvider = ({ children }) => {
 
   // Load people from AsyncStorage
   useEffect(() => {
-    const loadPeople = async () => {
-      const savedPeople = await AsyncStorage.getItem(STORAGE_KEY);
-      if (savedPeople) setPeople(JSON.parse(savedPeople));
-    };
     loadPeople();
-    console.log(people)
+    // console.log(people)
   }, []);
+
+  const loadPeople = async () => {
+    const savedPeople = await AsyncStorage.getItem(STORAGE_KEY);
+    if (savedPeople) setPeople(JSON.parse(savedPeople));
+  };
+
 
   const addPerson = async (name, dob) => {
     const newPerson = {
@@ -28,11 +30,21 @@ export const PeopleProvider = ({ children }) => {
     };
     const updatedPeople = [...people, newPerson];
 
-    let updatedPeopleSortedByDay = updatedPeople.sort((a,b) => a.dob.split('/')[2].localeCompare(b.dob.split('/')[2]))
-    let updatedPeopleSortedByDayAndMonth = updatedPeopleSortedByDay.sort((a,b) => a.dob.split('/')[1].localeCompare(b.dob.split('/')[1]))
+    // updatedPeople.sort((a, b) => {
+    //   const [yearA, monthA, dayA] = a.dob.split("/").map(Number);
+    //   const [yearB, monthB, dayB] = b.dob.split("/").map(Number);
 
-    setPeople(updatedPeopleSortedByDayAndMonth);
-    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeopleSortedByDayAndMonth));
+    //   // Compare month first, then day
+    //   if (monthA === monthB) {
+    //     return dayA - dayB;
+    //   }
+    //   return monthA - monthB;
+    // })
+
+    
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+
   };
 
   const deletePerson = async (id) => {
@@ -51,9 +63,19 @@ export const PeopleProvider = ({ children }) => {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
   };
 
+  const deleteIdea = async (personID, ideaID) => {
+    const person = people.find((person) => person.id === personID);
+    person.ideas = person.ideas.filter(
+      (idea) => idea.id !== ideaID
+    );
+    const updatedPeople = [...people];
+    setPeople(updatedPeople);
+    await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+  };
+
 
   return (
-    <PeopleContext.Provider value={{ people, addPerson, deletePerson, addIdea }}>
+    <PeopleContext.Provider value={{ people, addPerson, deletePerson, addIdea, deleteIdea }}>
       {children}
     </PeopleContext.Provider>
   );

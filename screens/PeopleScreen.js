@@ -37,11 +37,13 @@ const renderRightActions = (id) => (
 const renderItem = ({ item }) => {
   let dateFormat = item.dob.split("/").join("-");
   let dateObj = new Date(dateFormat);
+  let dateObjTimeZone = dateObj.setTime( dateObj.getTime() + dateObj.getTimezoneOffset()*60*1000 )
     let options = {
       month: 'long',
       day: 'numeric',
     };
-    let formattedDOB = new Intl.DateTimeFormat('en-CA', options).format(dateObj);
+    // let formattedDOB = new Intl.DateTimeFormat('en-CA', options).format(dateObj);
+    let formattedDOB = new Intl.DateTimeFormat('en-CA', options).format(dateObjTimeZone);
   
   return (
     <Swipeable renderRightActions={() => renderRightActions(item.id)}>
@@ -52,13 +54,21 @@ const renderItem = ({ item }) => {
         </View>
         <MaterialIcons name="lightbulb" size={32} color="black" 
           onPress={() => navigation.navigate("Idea", item)}/>
-          {/* <MaterialIcons name="lightbulb" size={32} color="black" 
-          onPress={() => console.log("Idea pressed")}/> */}
       </View>
     </Swipeable>
   );
 };
 
+// sort array
+people.sort((a, b) => {
+  const [yearA, monthA, dayA] = a.dob.split("/").map(Number);
+  const [yearB, monthB, dayB] = b.dob.split("/").map(Number);
+  // Compare month first, then day
+  if (monthA === monthB) {
+    return dayA - dayB;
+  }
+  return monthA - monthB;
+  })
 
 return (
   <SafeAreaProvider>

@@ -5,7 +5,9 @@ import {
   TextInput, 
   Button, 
   Text, 
-  Pressable, 
+  Pressable,
+  FlatList, 
+  Image,
 } from "react-native";
 import PeopleContext from "../PeopleContext";
 import { useNavigation } from "@react-navigation/native";
@@ -25,8 +27,38 @@ export default function IdeaScreen({route}) {
   const item = route.params
   const {name, id} = route.params
   const { people } = useContext(PeopleContext);
+  const { deleteIdea } = useContext(PeopleContext);
 
   const person = people.find((person) => person.id === id)
+
+  const renderItem = ({ item }) => {
+    
+    return (
+      <View style={styles.listItemContainer}>
+
+        <Pressable onPress={ () => console.log("image clicked")}>
+          <Image
+            source={{uri: item.img}}
+            style={{
+              width: item.width * 0.6,
+              height: item.height * 0.6,
+            }}
+          />
+        </Pressable>
+        
+
+        <View style={styles.listTextAndButton}>
+          <Text style={styles.listText}>{item.text}</Text>
+
+          <Pressable style={styles.deleteButton}
+            onPress={() => deleteIdea(id, item.id)}>
+            <Text style={styles.deleteButtonText}>Delete Idea</Text>
+          </Pressable>
+        </View>
+        
+      </View>
+    );
+  };
 
 
   return (
@@ -36,11 +68,15 @@ export default function IdeaScreen({route}) {
 
       {(person.ideas.length === 0) ? (
           <View>
-            <Text style={styles.list}>No Ideas Added Yet</Text>
+            <Text style={styles.listItemContainer}>No Ideas Added Yet</Text>
           </View>
         ) : (
-          <View>
-            <Text style={styles.list}>there are ideas</Text>
+          <View style={styles.listContainer}>
+            <FlatList
+              data={person.ideas}
+              keyExtractor={(item) => item.id}
+              renderItem={renderItem}
+            />
           </View>
         )
       }
@@ -66,12 +102,45 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingBottom: 20,
   },
-  list: {
+
+  listContainer:{
+    
+  },
+  listItemContainer: {
     backgroundColor: "#fff",
     borderWidth: 1,
     borderColor: "#bbb",
-    padding: 5,
+    padding: 15,
+    flexDirection: "row",
+    gap: 15,
+    marginVertical: 5,
+    
   },
+
+  listTextAndButton: {
+    // flexDirection: "row",
+    flex: 1,    //
+    // backgroundColor: "blue",
+    justifyContent: "space-between",
+  },
+  listText:{
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  deleteButton: {
+    // width: "100%",
+    backgroundColor: "#D21F3C",
+    padding: 5,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "flex-end",
+  },
+  deleteButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    paddingHorizontal: 10,
+  },
+
   fabContainer: {
     /* position the content inside the FAB */
     justifyContent: 'center',
