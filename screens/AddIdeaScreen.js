@@ -19,6 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Camera, CameraView } from "expo-camera";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { randomUUID } from "expo-crypto";
+import ModalComponent from "../components/Modal";
 
 
 const aspectRatio = 2/3
@@ -45,6 +46,13 @@ export default function AddIdeaScreen({route}) {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraRef, setCameraRef] = useState(null);
   const [photo, setPhoto] = useState(null);
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
 
   // Request camera permission
   useEffect(() => {
@@ -90,7 +98,7 @@ export default function AddIdeaScreen({route}) {
           // skipProcessing: false,
         };
       const data = await cameraRef.takePictureAsync(options);
-      console.log("Data:", data)
+      // console.log("Data:", data)
       setPhoto(data.uri); // Set the photo URI to display
     }
   };
@@ -98,9 +106,9 @@ export default function AddIdeaScreen({route}) {
   
 
   const saveIdea = () => {
-    // !! notify if field is empty !!!!
+
     if(idea === "" || photo === null){
-      console.log("A field is empty")
+      setIsModalVisible(true)
       return
     }
 
@@ -114,7 +122,7 @@ export default function AddIdeaScreen({route}) {
         height: cameraHeight,
       }
     })
-    console.log(people)
+    // console.log(people)
     navigation.goBack();
     
   };
@@ -183,6 +191,24 @@ export default function AddIdeaScreen({route}) {
         </Pressable>
 
       </Pressable>
+
+
+      {isModalVisible && !photo && (
+        <ModalComponent 
+          message="Please take a photo."
+          visibility={isModalVisible}
+          toggle={toggleModal}
+        />
+      )}
+
+      {isModalVisible && !idea && (
+        <ModalComponent 
+          message="Please fill in the idea."
+          visibility={isModalVisible}
+          toggle={toggleModal}
+        />
+      )}
+
 
     </KeyboardAvoidingView>
     

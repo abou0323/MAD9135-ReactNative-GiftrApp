@@ -10,10 +10,12 @@ import {
   KeyboardAvoidingView, 
   Keyboard,
   ScrollView,
+  Modal,
 } from "react-native";
 import PeopleContext from "../PeopleContext";
 import { useNavigation } from "@react-navigation/native";
 import DatePicker from "react-native-modern-datepicker";
+import ModalComponent from "../components/Modal";
 
 export default function AddPersonScreen() {
   const [name, setName] = useState("");
@@ -21,12 +23,22 @@ export default function AddPersonScreen() {
   const { addPerson } = useContext(PeopleContext);
   const navigation = useNavigation();
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+
   const savePerson = () => {
-    if (name && dob) {
-      addPerson(name, dob);
-      navigation.goBack();
+
+    if (!name || !dob){
+      setIsModalVisible(true)
+      return
     }
-    // !! notify if field is empty !!!!
+
+    addPerson(name, dob);
+    navigation.goBack();
     
   };
   return (
@@ -63,6 +75,23 @@ export default function AddPersonScreen() {
 
         </Pressable>
       </ScrollView>
+
+
+      {isModalVisible && !dob && (
+        <ModalComponent 
+          message="Please fill in the date of birth."
+          visibility={isModalVisible}
+          toggle={toggleModal}
+        />
+      )}
+
+      {isModalVisible && !name && (
+        <ModalComponent 
+          message="Please fill in the name."
+          visibility={isModalVisible}
+          toggle={toggleModal}
+        />
+      )}
 
     </KeyboardAvoidingView>
     
@@ -116,8 +145,4 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 18,
   },
-
-  testingText: {
-    fontSize: 18,
-  }
 });
