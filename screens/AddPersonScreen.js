@@ -82,6 +82,7 @@ export default function AddPersonScreen() {
           message="Please fill in the date of birth."
           visibility={isModalVisible}
           toggle={toggleModal}
+          type="missingField"
         />
       )}
 
@@ -90,6 +91,7 @@ export default function AddPersonScreen() {
           message="Please fill in the name."
           visibility={isModalVisible}
           toggle={toggleModal}
+          type="missingField"
         />
       )}
 

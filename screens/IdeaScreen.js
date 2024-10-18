@@ -18,6 +18,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import ModalComponent from "../components/Modal";
 
 
 export default function IdeaScreen({route}) {
@@ -29,14 +30,27 @@ export default function IdeaScreen({route}) {
   const { people } = useContext(PeopleContext);
   const { deleteIdea } = useContext(PeopleContext);
 
+  const [selectedImage, setSelectedImage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const person = people.find((person) => person.id === id)
+
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
+
+  const handleImageClick = (img) => {
+    setSelectedImage(img)
+    setIsModalVisible(true)
+  }
+
 
   const renderItem = ({ item }) => {
     
     return (
       <View style={styles.listItemContainer}>
 
-        <Pressable onPress={ () => console.log("image clicked")}>
+        <Pressable onPress={() => {handleImageClick(item.img)}}>
           <Image
             source={{uri: item.img}}
             style={{
@@ -55,6 +69,15 @@ export default function IdeaScreen({route}) {
             <Text style={styles.deleteButtonText}>Delete Idea</Text>
           </Pressable>
         </View>
+
+        {isModalVisible && selectedImage && (
+        <ModalComponent 
+          message={selectedImage}
+          visibility={isModalVisible}
+          toggle={toggleModal}
+          type="enlargeImage"
+        />
+      )}
         
       </View>
     );
@@ -104,7 +127,7 @@ const styles = StyleSheet.create({
   },
 
   listContainer:{
-    
+    paddingBottom: 40,
   },
   listItemContainer: {
     backgroundColor: "#fff",

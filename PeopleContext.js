@@ -9,6 +9,10 @@ export const PeopleProvider = ({ children }) => {
 
   const STORAGE_KEY = "people";
 
+  const [imageDimensions, setImageDimensions] = useState()
+
+  const DIMENSIONS = "imageDimensions"
+
   // Load people from AsyncStorage
   useEffect(() => {
     loadPeople();
@@ -41,7 +45,7 @@ export const PeopleProvider = ({ children }) => {
     //   return monthA - monthB;
     // })
 
-    
+
     setPeople(updatedPeople);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
 
@@ -61,6 +65,15 @@ export const PeopleProvider = ({ children }) => {
     const updatedPeople = [...people];
     setPeople(updatedPeople);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
+
+
+    // 
+    const imageSize = {
+      "width": idea.width,
+      "height": idea.height,
+    }
+    setImageDimensions(imageSize)
+    await AsyncStorage.setItem(DIMENSIONS, JSON.stringify(imageSize));
   };
 
   const deleteIdea = async (personID, ideaID) => {
@@ -75,7 +88,7 @@ export const PeopleProvider = ({ children }) => {
 
 
   return (
-    <PeopleContext.Provider value={{ people, addPerson, deletePerson, addIdea, deleteIdea }}>
+    <PeopleContext.Provider value={{ people, addPerson, deletePerson, addIdea, deleteIdea, imageDimensions }}>
       {children}
     </PeopleContext.Provider>
   );

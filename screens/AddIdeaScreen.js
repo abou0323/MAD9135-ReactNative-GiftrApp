@@ -198,6 +198,7 @@ export default function AddIdeaScreen({route}) {
           message="Please take a photo."
           visibility={isModalVisible}
           toggle={toggleModal}
+          type="missingField"
         />
       )}
 
@@ -206,6 +207,7 @@ export default function AddIdeaScreen({route}) {
           message="Please fill in the idea."
           visibility={isModalVisible}
           toggle={toggleModal}
+          type="missingField"
         />
       )}
 
