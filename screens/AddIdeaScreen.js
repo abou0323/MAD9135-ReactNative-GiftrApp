@@ -163,15 +163,17 @@ export default function AddIdeaScreen({route}) {
             </View>
           </CameraView>
         ) : (
-          // If a photo is taken, display the preview
+          // If a photo is taken, display the preview, with option to retake photo
           <View style={styles.cameraViewContainer}>
-            <Image source={{ uri: photo }} style={styles.imagePreview} />
-            {/* <TouchableOpacity
-              style={styles.captureButton}
-              onPress={() => setPhoto(null)}
-            >
-              <Text style={styles.captureText}> Retake </Text>
-            </TouchableOpacity> */}
+            <View style={styles.captureContainer}>
+              <Image source={{ uri: photo }} style={styles.imagePreview} />
+              <TouchableOpacity
+                style={styles.reCaptureButton}
+                onPress={() => setPhoto(null)}
+              >
+                <MaterialCommunityIcons  name="camera-retake" size={42} color="white" />
+              </TouchableOpacity>
+            </View>
           </View>
         )}
       </View>
@@ -283,6 +285,13 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     // resizeMode: "contain",
+  },
+
+
+  reCaptureButton: {
+    position: 'absolute',
+    alignSelf: "center",
+    bottom: 20,
   },
 
 
