@@ -11,13 +11,8 @@ import {
 } from "react-native";
 import PeopleContext from "../PeopleContext";
 import { useNavigation } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import {
-  GestureHandlerRootView,
-} from "react-native-gesture-handler";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import ModalComponent from "../components/Modal";
 
 
@@ -106,6 +101,7 @@ export default function IdeaScreen({route}) {
         )
       }
 
+
         {isModalVisible && selectedImage && (
           <ModalComponent 
             message={selectedImage}
@@ -115,7 +111,6 @@ export default function IdeaScreen({route}) {
             func={() => setSelectedImage("")}
           />
         )}
-
 
         {isModalVisible && requestConfirmDelete && (
           <ModalComponent 
@@ -134,9 +129,7 @@ export default function IdeaScreen({route}) {
       </Pressable>
 
     </SafeAreaProvider>
-    
   );
-
 
 }
 
@@ -149,7 +142,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingBottom: 20,
   },
-
   listContainer:{
     paddingBottom: 40,
   },
@@ -161,13 +153,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 15,
     marginVertical: 5,
-    
   },
-
   listTextAndButton: {
-    // flexDirection: "row",
     flex: 1,    //
-    // backgroundColor: "blue",
     justifyContent: "space-between",
   },
   listText:{
@@ -175,7 +163,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   deleteButton: {
-    // width: "100%",
     backgroundColor: "#D21F3C",
     padding: 5,
     alignItems: "center",
@@ -187,7 +174,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     paddingHorizontal: 10,
   },
-
   fabContainer: {
     /* position the content inside the FAB */
     justifyContent: 'center',
@@ -200,5 +186,4 @@ const styles = StyleSheet.create({
     right: 30,
     backgroundColor: '#C0AFE2',
   },
-
 });

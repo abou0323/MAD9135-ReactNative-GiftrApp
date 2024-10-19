@@ -6,11 +6,9 @@ const PeopleContext = createContext();
 
 export const PeopleProvider = ({ children }) => {
   const [people, setPeople] = useState([]);
-
   const STORAGE_KEY = "people";
 
   const [imageDimensions, setImageDimensions] = useState()
-
   const DIMENSIONS = "imageDimensions"
 
   // Load people from AsyncStorage
@@ -34,22 +32,11 @@ export const PeopleProvider = ({ children }) => {
     };
     const updatedPeople = [...people, newPerson];
 
-    // updatedPeople.sort((a, b) => {
-    //   const [yearA, monthA, dayA] = a.dob.split("/").map(Number);
-    //   const [yearB, monthB, dayB] = b.dob.split("/").map(Number);
-
-    //   // Compare month first, then day
-    //   if (monthA === monthB) {
-    //     return dayA - dayB;
-    //   }
-    //   return monthA - monthB;
-    // })
-
-
     setPeople(updatedPeople);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
 
   };
+
 
   const deletePerson = async (id) => {
     const updatedPeople = people.filter((person) => person.id !== id);
@@ -66,7 +53,6 @@ export const PeopleProvider = ({ children }) => {
     setPeople(updatedPeople);
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(updatedPeople));
 
-
     // 
     const imageSize = {
       "width": idea.width,
@@ -76,6 +62,7 @@ export const PeopleProvider = ({ children }) => {
     await AsyncStorage.setItem(DIMENSIONS, JSON.stringify(imageSize));
   };
 
+  
   const deleteIdea = async (personID, ideaID) => {
     const person = people.find((person) => person.id === personID);
     person.ideas = person.ideas.filter(

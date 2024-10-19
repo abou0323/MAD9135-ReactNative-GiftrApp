@@ -15,10 +15,10 @@ import PeopleContext from "../PeopleContext";
 import { Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 
+
 export default function ModalComponent({visibility, toggle, message, type, func}) {
 
   const { imageDimensions } = useContext(PeopleContext);
-  // console.log(imageDimensions)
 
   if (type === "enlargeImage") {
     return (
@@ -27,34 +27,30 @@ export default function ModalComponent({visibility, toggle, message, type, func}
       visible={visibility}
       animationType="slide"
       onRequestClose={toggle}   //triggered by Android Back button, drag dismiss on iOS, menu button on TVOS
-    >
-      <View style={styles.modalBG}>
-        <View style={styles.modalContent}>
-          {/* <Text style={styles.modalText}>{message}</Text> */}
-          <View style={styles.imageContainer}>
-            <Image
-              source={{uri: message}}
-              style={{
-                // width: imageDimensions.width * 1.25,
-                width: imageDimensions ? imageDimensions.width * 1.25 : screenWidth / 2 * 1.25,
-                // height: imageDimensions.height * 1.25,
-                height: imageDimensions ? imageDimensions.height * 1.25 : (screenWidth / 2 * 1.25) * (3 / 2),
-              }}
-            />
+      >
+        <View style={styles.modalBG}>
+          <View style={styles.modalContent}>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{uri: message}}
+                style={{
+                  // width: imageDimensions.width * 1.25,
+                  width: imageDimensions ? imageDimensions.width * 1.25 : screenWidth / 2 * 1.25,
+                  // height: imageDimensions.height * 1.25,
+                  height: imageDimensions ? imageDimensions.height * 1.25 : (screenWidth / 2 * 1.25) * (3 / 2),
+                }}
+              />
+            </View>
+            <Pressable style={styles.modalButton} onPress={func}>
+              <Text style={styles.modalButtonText}>Close Preview</Text>
+            </Pressable>
           </View>
-          <Pressable style={styles.modalButton} onPress={func}>
-            <Text style={styles.modalButtonText}>Close Preview</Text>
-          </Pressable>
-
         </View>
-
-      </View>
-    </Modal>
+      </Modal>
     )
   }
 
   return (
-
       <Modal
         transparent={true}
         visible={visibility}
@@ -63,6 +59,7 @@ export default function ModalComponent({visibility, toggle, message, type, func}
       >
         <View style={styles.modalBG}>
           <View style={styles.modalContent}>
+
             <Text style={styles.modalText}>{message}</Text>
 
             {type === "missingField" && (
@@ -70,7 +67,6 @@ export default function ModalComponent({visibility, toggle, message, type, func}
                 <Text style={styles.modalButtonText}>Close</Text>
               </Pressable>
             )}
-
 
             {type === "confirmRequest" && (
               <View style={styles.buttons}>
@@ -84,7 +80,6 @@ export default function ModalComponent({visibility, toggle, message, type, func}
             )}
 
           </View>
-
         </View>
       </Modal>
     
@@ -95,7 +90,6 @@ export default function ModalComponent({visibility, toggle, message, type, func}
 const styles = StyleSheet.create({
   modalBG: {
     backgroundColor: '#808080aa', 
-    // opacity: 50,
     flex:1,    
     justifyContent:'center'
   }, 
@@ -110,10 +104,8 @@ const styles = StyleSheet.create({
     width: "80%",
   },
   modalText:{
-    // marginBottom: 20,
     textAlign: "center",
   },
-
   modalButton: {
     alignSelf: "center",
     backgroundColor: "#D21F3C",
@@ -126,13 +118,10 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flexDirection: "row",
-    // backgroundColor: "yellow"
     gap: 20,
     justifyContent: "center"
   }, 
-
   imageContainer: {
     alignSelf: "center"
   }
-
 });

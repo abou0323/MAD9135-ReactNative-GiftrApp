@@ -22,8 +22,8 @@ export default function AddPersonScreen() {
   const [dob, setDob] = useState("");
   const { addPerson } = useContext(PeopleContext);
   const navigation = useNavigation();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
+
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -31,25 +31,22 @@ export default function AddPersonScreen() {
 
 
   const savePerson = () => {
-
     if (!name || !dob){
       setIsModalVisible(true)
       return
     }
-
     addPerson(name, dob);
     navigation.goBack();
-    
   };
+
+  
   return (
 
     <KeyboardAvoidingView
       behaviour={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
     >
-      <ScrollView>
-        <Pressable onPress={Keyboard.dismiss}>
-
+      <ScrollView keyboardShouldPersistTaps="never" keyboardDismissMode="on-drag">
 
           <Text style={styles.title}>Add a person</Text>
           <Text style={styles.inputTitleName}>Name:</Text>
@@ -68,9 +65,6 @@ export default function AddPersonScreen() {
             mode="calendar"
           />
 
-          {/* <Button title="Save" onPress={savePerson} /> */}
-          {/* <Button title="Cancel" onPress={() => navigation.goBack()} /> */}
-
           <Pressable style={[styles.button, styles.saveButton]} onPress={savePerson}>
             <Text style={styles.buttonText}>Save</Text>
           </Pressable>
@@ -79,8 +73,6 @@ export default function AddPersonScreen() {
             <Text style={styles.buttonText} >Cancel</Text>
           </Pressable>
 
-
-        </Pressable>
       </ScrollView>
 
 
