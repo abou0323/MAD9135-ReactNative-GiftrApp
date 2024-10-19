@@ -199,6 +199,7 @@ export default function AddIdeaScreen({route}) {
           visibility={isModalVisible}
           toggle={toggleModal}
           type="missingField"
+          func={null}
         />
       )}
 
@@ -208,6 +209,7 @@ export default function AddIdeaScreen({route}) {
           visibility={isModalVisible}
           toggle={toggleModal}
           type="missingField"
+          func={null}
         />
       )}
 
@@ -234,10 +236,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     backgroundColor: "#fff",
     borderRadius: 5,
-    marginBottom: 10,
+    marginBottom: 20,
     borderBottomWidth: 1,
     // borderBottomColor: "#000",
-    borderColor: "blue",
+    borderColor: "#3f51b5",
   },
 
 

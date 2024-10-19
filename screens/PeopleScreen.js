@@ -74,11 +74,19 @@ return (
   <SafeAreaProvider>
     <GestureHandlerRootView style={styles.container}>
       <SafeAreaView>
-        <FlatList
-          data={people}
-          keyExtractor={(item) => item.id}
-          renderItem={renderItem}
-        />
+        {(people.length === 0) ? (
+            <View>
+              <Text style={styles.itemContainer}>No People Saved Yet</Text>
+            </View>
+          ) : (
+            <FlatList
+              data={people}
+              keyExtractor={(item) => item.id}
+              renderItem={renderItem}
+            />
+          )
+        }
+
       </SafeAreaView>
     </GestureHandlerRootView>
 

@@ -57,6 +57,13 @@ export default function AddPersonScreen() {
           
           <Text style={styles.inputTitleDOB}>Date of Birth:</Text>
           <DatePicker
+                options={{
+                  textHeaderColor: '#3f51b5',
+                  textDefaultColor: '#6574c4',
+                  selectedTextColor: '#fff',
+                  mainColor: '#3f51b5',
+                  textSecondaryColor: '#9fa8da',
+                }}
             onSelectedChange={date => setDob(date)}
             mode="calendar"
           />
@@ -83,6 +90,7 @@ export default function AddPersonScreen() {
           visibility={isModalVisible}
           toggle={toggleModal}
           type="missingField"
+          function={null}
         />
       )}
 
@@ -92,6 +100,7 @@ export default function AddPersonScreen() {
           visibility={isModalVisible}
           toggle={toggleModal}
           type="missingField"
+          function={null}
         />
       )}
 
@@ -120,7 +129,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderBottomWidth: 1,
     // borderBottomColor: "#000",
-    borderColor: "blue",
+    borderColor: "#3f51b5",
   },
   inputTitleDOB: {
     fontSize: 16,

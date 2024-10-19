@@ -33,6 +33,10 @@ export default function IdeaScreen({route}) {
   const [selectedImage, setSelectedImage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const [requestConfirmDelete, setRequestConfirmDelete] = useState(false)
+  const [personID, setPersonID] = useState("")
+  const [ideaID, setIdeaID] = useState("")
+
   const person = people.find((person) => person.id === id)
 
   const toggleModal = () => {
@@ -42,6 +46,13 @@ export default function IdeaScreen({route}) {
   const handleImageClick = (img) => {
     setSelectedImage(img)
     setIsModalVisible(true)
+  }
+
+  const handleDeleteIdea = (person, idea) => {
+    setIsModalVisible(true)
+    setRequestConfirmDelete(true)
+    setPersonID(person)
+    setIdeaID(idea)
   }
 
 
@@ -65,19 +76,10 @@ export default function IdeaScreen({route}) {
           <Text style={styles.listText}>{item.text}</Text>
 
           <Pressable style={styles.deleteButton}
-            onPress={() => deleteIdea(id, item.id)}>
+            onPress={() => handleDeleteIdea(id, item.id)}>
             <Text style={styles.deleteButtonText}>Delete Idea</Text>
           </Pressable>
         </View>
-
-        {isModalVisible && selectedImage && (
-        <ModalComponent 
-          message={selectedImage}
-          visibility={isModalVisible}
-          toggle={toggleModal}
-          type="enlargeImage"
-        />
-      )}
         
       </View>
     );
@@ -103,6 +105,28 @@ export default function IdeaScreen({route}) {
           </View>
         )
       }
+
+        {isModalVisible && selectedImage && (
+          <ModalComponent 
+            message={selectedImage}
+            visibility={isModalVisible}
+            toggle={toggleModal}
+            type="enlargeImage"
+            func={() => setSelectedImage("")}
+          />
+        )}
+
+
+        {isModalVisible && requestConfirmDelete && (
+          <ModalComponent 
+            message="Are you sure you want to delete this idea?"
+            visibility={isModalVisible}
+            toggle={() => {toggleModal; setRequestConfirmDelete(false)}}
+            type="confirmRequest"
+            func={() => {deleteIdea(personID, ideaID); setRequestConfirmDelete(false)}}
+          />
+        )}
+
 
       <Pressable style={styles.fabContainer}
           onPress={() => navigation.navigate("AddIdea", item)}>

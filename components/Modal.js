@@ -15,7 +15,7 @@ import PeopleContext from "../PeopleContext";
 import { Dimensions } from 'react-native';
 const screenWidth = Dimensions.get('window').width;
 
-export default function ModalComponent({visibility, toggle, message, type}) {
+export default function ModalComponent({visibility, toggle, message, type, func}) {
 
   const { imageDimensions } = useContext(PeopleContext);
   // console.log(imageDimensions)
@@ -42,7 +42,7 @@ export default function ModalComponent({visibility, toggle, message, type}) {
               }}
             />
           </View>
-          <Pressable style={styles.modalButton} onPress={toggle}>
+          <Pressable style={styles.modalButton} onPress={func}>
             <Text style={styles.modalButtonText}>Close Preview</Text>
           </Pressable>
 
@@ -65,9 +65,23 @@ export default function ModalComponent({visibility, toggle, message, type}) {
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>{message}</Text>
 
-            <Pressable style={styles.modalButton} onPress={toggle}>
-              <Text style={styles.modalButtonText}>Close</Text>
-            </Pressable>
+            {type === "missingField" && (
+              <Pressable style={styles.modalButton} onPress={toggle}>
+                <Text style={styles.modalButtonText}>Close</Text>
+              </Pressable>
+            )}
+
+
+            {type === "confirmRequest" && (
+              <View style={styles.buttons}>
+                <Pressable style={styles.modalButton} onPress={toggle}>
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </Pressable>
+                <Pressable style={styles.modalButton} onPress={func}>
+                  <Text style={styles.modalButtonText}>Delete</Text>
+                </Pressable>
+              </View>
+            )}
 
           </View>
 
